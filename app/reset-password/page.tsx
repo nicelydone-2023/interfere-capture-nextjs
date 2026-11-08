@@ -9,8 +9,11 @@ export default function ResetPasswordPage() {
   const [result, setResult] = useState<string | null>(null);
 
   function resetPassword() {
-    // Baseline: the reset succeeds.
-    setResult("Password updated");
+    // Controlled failure: the reset token is expired.
+    setResult("This password reset link is invalid or has expired.");
+    setTimeout(() => {
+      throw new Error("CAPTURE_EXPIRED_RESET_TOKEN");
+    }, 0);
   }
 
   return (
@@ -21,7 +24,7 @@ export default function ResetPasswordPage() {
         Reset password
       </button>
       {result && (
-        <p data-testid="reset-result" style={{ marginTop: 16, fontWeight: 600 }}>
+        <p data-testid="reset-result" style={{ marginTop: 16, fontWeight: 600, color: "#b91c1c" }}>
           {result}
         </p>
       )}

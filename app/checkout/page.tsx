@@ -9,8 +9,12 @@ export default function CheckoutPage() {
   const [result, setResult] = useState<string | null>(null);
 
   function completePurchase() {
-    // Baseline: the purchase succeeds.
-    setResult("Order confirmed: ND-1042");
+    // Controlled failure: the purchase fails payment validation.
+    setResult("Payment could not be validated. Please try again.");
+    // Surface a distinct, uncaught error for the monitor to capture.
+    setTimeout(() => {
+      throw new Error("CAPTURE_PAYMENT_VALIDATION_ERROR");
+    }, 0);
   }
 
   return (
@@ -21,7 +25,7 @@ export default function CheckoutPage() {
         Complete purchase
       </button>
       {result && (
-        <p data-testid="checkout-result" style={{ marginTop: 16, fontWeight: 600 }}>
+        <p data-testid="checkout-result" style={{ marginTop: 16, fontWeight: 600, color: "#b91c1c" }}>
           {result}
         </p>
       )}
